@@ -26,10 +26,7 @@ p.destaque {
     font-weight: normal;
     padding: 50px 0px 0px 10px;
     font-weight: lighter;
-    font-size: 2rem;
-
-
-    
+    font-size: 1.6rem;
 }
 a:link, a:active, a:visited {   
     text-decoration: none;    
@@ -37,7 +34,6 @@ a:link, a:active, a:visited {
     color: black;
     border: 2px solid transparent;
     box-shadow: 2px 2px 1px transparent;
-
 }
 a:hover {
     text-decoration: none;
@@ -46,7 +42,6 @@ a:hover {
     border: 2px solid black;
     transition: box-shadow 0.3s ease-in, border 0.5s linear;
 }
-
 i {
     color: dodgerblue;
     vertical-align: text-bottom;
@@ -56,6 +51,5 @@ img {
 }
 img:hover {
     opacity: 100%;
-    transition: opacity 0.5s ease-in-out;
-    
+    transition: opacity 0.5s ease-in-out;    
 }
