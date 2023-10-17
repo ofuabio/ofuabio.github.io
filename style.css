@@ -2,53 +2,60 @@ body {
     font-family: 'Karla';
     font-size: 20px;
     word-wrap: break-word;
-    margin: 0;
+    margin: auto;
     background-color: aliceblue;
-
-    
 }
 .container {
-    margin: 0px;
-    outline: 2px solid black;
-}
-.content {
     padding: 20px;
+    max-width: 600px;
+    margin: auto;    
 }
-.content div {
-    text-align: left;
-    margin: 20px;
+.container div {
+    margin: 10px;
     border: 2px solid black;
-    padding: 10px;
     box-shadow: 5px 5px 1px black;
+    background-color: white;
+    padding: 10px;
+    vertical-align: top;
 }
-
 p {
     margin: 0;
     padding: 10px;
 }
 p.destaque {
-    font-weight: bold;
-    text-decoration: underline;
-    text-underline-offset: 5px;    
+    font-weight: normal;
+    padding: 50px 0px 0px 10px;
+    font-weight: lighter;
+    font-size: 2rem;
+
+
+    
 }
 a:link, a:active, a:visited {   
     text-decoration: none;    
     font-weight: bold;
     color: black;
-    outline: 2px solid transparent;
-    outline-offset: 2px;
+    border: 2px solid transparent;
+    box-shadow: 2px 2px 1px transparent;
+
 }
 a:hover {
     text-decoration: none;
-    transition: outline 0.3s ease-in;
-    outline: 2px solid black;
+    border: 2px solid transparent;
+    box-shadow: 4px 4px 1px black;
+    border: 2px solid black;
+    transition: box-shadow 0.3s ease-in, border 0.5s linear;
+}
 
-}
-img {
-    width: 200px;
-}
 i {
     color: dodgerblue;
     vertical-align: text-bottom;
 }
-
+img {
+    opacity: 50%;
+}
+img:hover {
+    opacity: 100%;
+    transition: opacity 0.5s ease-in-out;
+    
+}
