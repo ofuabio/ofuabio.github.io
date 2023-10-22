@@ -64,6 +64,7 @@ i {
     animation-direction: alternate; 
     object-fit: contain;
     object-position: 5px 10px;
+    opacity: 50%;
     
 }
 @keyframes fadeIn {
@@ -73,6 +74,8 @@ i {
     75%  {opacity: 90%;}
     100% {opacity: 100%;}
   }
-img {
+img.capas {
     margin: auto;
+    width: 180px;
+    height: 260px;
 }
