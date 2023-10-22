@@ -17,6 +17,15 @@ body {
     background-color: white;
     padding: 10px;
     vertical-align: top;
+    
+}
+.container div.bola {    
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 50%;
 }
 p {
     margin: 0;
@@ -46,10 +55,24 @@ i {
     color: dodgerblue;
     vertical-align: text-bottom;
 }
-img {
-    opacity: 50%;
+
+.anima {
+    margin: auto;
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate; 
+    object-fit: contain;
+    object-position: 5px 10px;
+    
 }
-img:hover {
-    opacity: 100%;
-    transition: opacity 0.5s ease-in-out;    
+@keyframes fadeIn {
+    0%   {opacity: 60%;}
+    25%  {opacity: 70%;}
+    50%  {opacity: 80%;}
+    75%  {opacity: 90%;}
+    100% {opacity: 100%;}
+  }
+img {
+    margin: auto;
 }
