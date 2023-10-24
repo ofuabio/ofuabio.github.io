@@ -51,6 +51,7 @@ img.capas {
     margin: auto;
     width: 160px;
     height: 240px;
+    
 }
 img.avatar {
     border-radius: 50%; 
@@ -59,4 +60,50 @@ img.avatar {
     height: 150px;
     object-fit: scale-down;
     background-color: white;
+}
+.card-list {
+    display: flex;
+    padding: 1rem;
+    overflow-x: scroll;
+}
+
+.card-list::-webkit-scrollbar {
+    width: 12px;
+    height: 15px;
+}
+.card-list::-webkit-scrollbar-thumb {
+    background: lightblue;    
+
+}
+
+.card-list::-webkit-scrollbar-track {
+    background: cornflowerblue;
+}
+
+
+.card {
+    width: 180px;
+    height: 250px;
+    padding-right: 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: .2s;
+    clear: both;
+    position: relative;
+}
+
+.card:focus-within~.card, .card:hover~.card {
+    transform: translateX(130px);
+}
+
+.card:hover {
+    transform: translateY(-1rem);
+}
+
+.card:not(:first-child) {
+    margin-left: -130px;
+}
+
+.card-header {
+    margin: auto;
 }
