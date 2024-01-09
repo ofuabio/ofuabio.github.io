@@ -1,33 +1,22 @@
 body {
     font-family: Karla;
-    font-size: 22px;
-    background-color: dodgerblue;    
+    font-size: 1.4rem;
     word-wrap: break-word;    
-    line-height: 1.9rem;
-    text-align: center;
+    line-height: 2rem;
+    max-width: 55ch;
+    
 
 }
 .wrapper {
-    margin: auto;
-    width: 600px;
-    margin-top: 50px;
+    width: 100%;
     
 
 }
 .wrapper div {
-    border: 2px solid black;
-    box-shadow: 5px 5px 1px blue;
-    padding: 30px;
-    margin: 10px;
-    background-color: white;
+    padding: 10px 10px 5px 30px;
+    
 }
 
-
-p {
-    width: 30ch;
-    margin: auto;
-    padding: 10px;
-}
 a:link, a:active, a:visited {   
     text-decoration: none;    
     font-weight: bold;
@@ -42,17 +31,38 @@ a:hover {
     border: 2px solid black;
     transition: box-shadow 0.3s ease-in, border 0.5s linear;
 }
+a.premio:link, a.premio:active, a.premio:visited {
+    text-decoration: none;
+    color: gray;
+    border: 0;
+    box-shadow: none;
+    
+}
+a.premio:hover {
+    text-decoration: none;
+    color: dimgray;
+    border: 0;
+    box-shadow: none;
+    transition: color 0.3s ease-in;
+}
 i {
-    color: dodgerblue;
-    vertical-align: text-bottom;
     font-size: 1rem;
+    margin-left: -22px;
+}
+img {
+    width: 100%;
+}
+a.imagem:link {
+    text-decoration: none;
+    border: 0;
+    font-weight: normal;
+    box-shadow: none;
 }
 img.capas {
     margin: auto;
     width: 160px;
     height: 240px;
-    
-}
+    }
 img.avatar {
     border-radius: 50%; 
     overflow: hidden;
@@ -66,21 +76,16 @@ img.avatar {
     padding: 1rem;
     overflow-x: scroll;
 }
-
 .card-list::-webkit-scrollbar {
     width: 12px;
     height: 15px;
 }
 .card-list::-webkit-scrollbar-thumb {
     background: lightblue;    
-
 }
-
 .card-list::-webkit-scrollbar-track {
     background: cornflowerblue;
 }
-
-
 .card {
     width: 180px;
     height: 250px;
@@ -91,19 +96,18 @@ img.avatar {
     clear: both;
     position: relative;
 }
-
 .card:focus-within~.card, .card:hover~.card {
     transform: translateX(130px);
 }
-
 .card:hover {
     transform: translateY(-1rem);
 }
-
 .card:not(:first-child) {
     margin-left: -130px;
 }
-
 .card-header {
     margin: auto;
+}
+a.navbar:link, a.navbar:active, a.navbar:visited {
+    color: gray;
 }
