@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ofuabio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@200;300;400;500;600;700;800" rel="stylesheet">
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css">
+</head>
+<body>
+    <div class="wrapper">
+
+        <div>
+            <p>
+                <a class="avatar" href="https://ofuabio.github.io/"><img class="avatar" src="avatar.jpg" title="Retrato de Amanda Enju" width="50%"></a>
+            </p>
+            <p class="artigo">
+                passo a passo: como fazer OCR de livros
+            </p>
+        </div>        
+        <div>
+            <p>
+                <p>
+                    <p class="intertitulo">resumo</p>
+                </p>
+                Este guia amador mostra como digitalizar as páginas de um livro impresso, tratar as imagens resultantes da digitalização para melhorar sua qualidade e delas extrair, por meio da linguagem de programação Python, o texto da obra para um arquivo editável.
+            </p>
+            <p>
+                O processo é feito através da técnica de <a href="https://pt.wikipedia.org/wiki/Reconhecimento_%C3%B3tico_de_caracteres">reconhecimento óptico de caracteres (OCR)</a>, e para isso é necessário ter um scanner de mesa, alguns softwares específicos compatíveis com o sistema operacional Windows 11 e, claro, um <span style="font-style: italic;">bom</span> livro fora de circulação que você deseja ler no (des)conforto da tela ou preservar em um arquivo digital.
+            </p>
+            <p>
+                O resultado de um OCR nunca será perfeito, já que é impossível reconhecer com alto grau de precisão o texto de obras publicadas em vários idiomas e em diversos formatos. O tempo e o uso também deixam suas marcas no suporte físico dos livros, dificultando o reconhecimento ideal de letras miúdas, papéis deteriorados e todo tipo de problemas próprios à indústria tipográfica. 
+            </p>
+            <p>
+                Portanto, você ainda terá que editar, corrigir e cotejar o texto obtido por meio de OCR com o exemplar original para garantir sua consistência. Este script demonstra apenas como se pode automatizar o processo anterior à edição de texto para evitar meios ainda mais trabalhosos de extração, como a digitação manual.
+            </p>
+            <p class="aviso">
+                ATENÇÃO: este script é destinado à preservação e recuperação de textos antigos de difícil acesso e/ou fora de circulação para fins pessoais de pesquisa. Seu intuito não é digitalizar livros impressos ainda em comércio, tampouco obter lucro com a replicação e reprodução de obras protegidas por direitos autorais e patrimoniais. Use-o com sabedoria.
+            </p> <br>
+            <p>
+                <p class="intertitulo">requisitos</p>
+            </p>
+            <p>
+                <ul>
+                    <li>
+                        Windows 11
+                    </li>
+                    <li>
+                        Um scanner (no caso, usamos o <a href="https://epson.com.br/Suporte/Scanners/Epson-Perfection/Epson-Perfection-V19/s/SPT_B11B231201">Epson Perfection V19</a>)                     
+                    </li>
+                    <li>
+                        <a href="https://github.com/UB-Mannheim/tesseract/wiki">Tesseract</a>
+                    </li>
+                    <li>
+                        <a href="https://sourceforge.net/projects/scantailor/">Scan Tailor</a>
+                    </li>
+                    <li>
+                        <a href="https://www.python.org/">Python 3</a> com os pacotes <a href="https://pypi.org/project/pytesseract/">pytesseract</a>, <a href="https://pypi.org/project/pillow/">pillow</a> e <a href="https://pypi.org/project/python-docx/">python-docx</a>
+                    </li>
+                    <li>
+                        O arquivo <a href="#">ocr-script.py</a>, explicado ao final deste artigo
+                    </li>
+                    <li>
+                        A cópia de um livro antigo, preferencialmente de puro texto
+                    </li>
+                        
+            </ul>
+            </p>
+            <br>
+            <p>
+                <p>
+                    <p class="intertitulo">primeiro passo: digitalizando o livro</p>
+                </p>
+                <p>
+                    Digitalizar manualmente todas as páginas de um livro por meio de um scanner é bastante trabalhoso. A depender do número de páginas, você provavelmente vai detonar a <a href="https://pt.wikipedia.org/wiki/Lombada_(livro)">lombada</a> do exemplar para conseguir obter uma imagem boa, já que o vidro do scanner é plano. Portanto, jamais use exemplares emprestados de amigos, bibliotecas ou coleções particulares; adquira uma cópia do livro para esse fim.
+                </p>
+                <p>
+                    Antes de escanear, configure o aparelho para produzir imagens de qualidade. Aconselha-se para isso uma resolução de no mínimo 300 DPI (<a href="https://pt.wikipedia.org/wiki/Ponto_por_polegada">pontos por polegada</a>) e o formato <a href="https://pt.wikipedia.org/wiki/Tagged_Image_File_Format">.tif</a> para as imagens de saída, já que nele não há compressão de dados, ao contrário dos formatos png e jpg. Lembre-se, ainda, de escanear em modo preto e branco ou em escala de cinza, para melhor nitidez do texto.
+                </p>
+                <p>
+                    A título de ilustração, digitalizamos apenas duas páginas abertas de um livro antigo (ou seja, quatro páginas de texto, ao todo) utilizando o software nativo do scanner Epson Perfection V19, chamado EPSON Scan. 
+                </p>
+                <p>
+                    <img src="epson-01.png" alt="" style="width: 320px;">
+                    <img src="epson-02.png" alt="" style="width: 350px;">
+                </p>
+                <p>
+                    Salvamos os dois arquivos tif em uma pasta:
+                </p>
+                <p>
+                    <img src="diretorio.png" alt="" style="width: 400px;">
+                </p>
+                <p>
+                    Veja só o resultado, ainda sem nenhum tratamento:
+                </p>
+                <p>
+                    <img src="exemplo-01.png" alt=""> <br>
+                    <img src="exemplo-02.png" alt="">
+                </p>
+
+
+                <p>
+                    A matéria-prima está pronta para ser processada.
+                </p>
+                <br>
+                <p>
+                    <p class="intertitulo">
+                        segundo passo: tratando as imagens</p>
+                </p>
+                <p>
+                    Com o Scan Tailor, fazemos o pré-processamento das imagens obtidas na digitalização. Entre outras comodidades, o programa permite ao usuário detectar manualmente ou automaticamente a “mancha” de texto (espaço formado pelas linhas, dentro das margens da página) conforme a diagramação do livro em questão. 
+                </p>
+                <p class="aviso">
+                    OBS.: apesar de o Python também ser altamente capaz de tratar imagens e planilhar seus dados técnicos (por meio dos pacotes <a href="https://opencv.org/">opencv</a> e <a href="https://pypi.org/project/matplotlib/">matplotlib</a>, por exemplo), optamos aqui por uma abordagem visualmente mais agradável ao usuário não acostumado com linguagens de programação, reservando o Python apenas à automatização do processo de OCR e salvamento de arquivos de texto. Caso você queira aprender a fazer tudo isso apenas por meio do Python, saiba que é possível. Veja as sugestões de leitura ao final deste artigo.
+                </p>
+                <p>
+                    Ao abrir o Scan Tailor, você poderá criar um novo projeto ou abrir um já existente. Escolha a primeira opção:
+                </p>
+                <p>
+                    <img src="scan-tailor-01.png" alt="" style="width: 400px;">
+                </p>
+                <p>
+                    Navegamos até a pasta onde se acham os dois arquivos tif e criamos uma outra para abrigar o resultado do tratamento. Assim não perdemos os originais:
+                </p>
+                <p>
+                    <img src="scan-tailor-02.png" alt="" style="width: 500px;">
+                    <img src="scan-tailor-03.png" alt="" style="width: 500px;">
+                </p>
+                <p>
+                    Abaixo está a interface do programa. À esquerda temos o menu de tratamento, ao centro a visualização das imagens e à direita os arquivos originais, com páginas duplas:
+                </p>
+                <p>
+                    <img src="scan-tailor-04.png" alt="">
+                </p>
+                <p>
+                    O primeiro tratamento disponível, "Corrigir orientação", não será necessário neste caso, porque fizemos uma boa digitalização das páginas. Vamos então ao segundo tratamento: "Dividir páginas":
+                </p>
+                <p>
+                    <img src="scan-tailor-05.png" alt="">
+                </p>
+                <p>
+                    Percebe como a região cor-de-rosa está ocupando boa parte da página? Isso quer dizer que o programa não reconheceu a divisão das páginas automaticamente. Arrastamos o retângulo da região cor-de-rosa para a direita, em cada uma das duas imagens, para informar ao programa onde a página deve ser cortada. Elas devem ficar assim, metade azul, metade rosa:
+                </p>
+                <p>
+                    <img src="scan-tailor-06.png" alt="">
+                    <img src="scan-tailor-07.png" alt="">
+                </p>
+                <p>
+                    Basta agora clicar na setinha para aplicar as mudanças:
+                </p>
+                <p>
+                    <img src="scan-tailor-08.png" alt="" style="width: 400px;"><br>
+                    <img src="scan-tailor-09.png" alt="" style="width: 400px;"><br>
+                    <img src="scan-tailor-10.png" alt="" style="width: 400px;">
+                </p>
+                <p>
+                    Podemos pular o tratamento 3, "Alinhamento", porque fizemos uma boa digitalização. Vamos direto para "Selecione o conteúdo". Note como, no painel à direita, os dois arquivos tif já foram divididos em quatro arquivos diferentes, cada um contendo uma página do livro.
+                </p>
+                <p>
+                    <img src="scan-tailor-11.png" alt="" style="width: 300px;">
+                </p>
+                <p>Certo, agora selecionamos o conteúdo, ou seja, a "mancha" de linhas impressas. Arrastamos o retângulo roxo para corresponder à área em que há texto impresso na página. Fica assim:
+                </p>
+                <p>
+                    <img src="scan-tailor-12.png" alt="">
+                </p>
+                <p>
+                    Aplicamos as mudanças clicando na setinha desse tratamento.
+                </p>
+                    
+                <p>
+                    <img src="scan-tailor-13.png" alt="" style="width: 300px;"> <br>                
+                    <img src="scan-tailor-14.png" alt="" style="width: 400px;">
+                </p>
+                <p>
+                    O quinto tratamento, "Margens", permite arrastarmos o retângulo branco para evitar que o programa picote uma parte do texto.
+                </p>
+                <p>
+                    <img src="scan-tailor-margens.png" alt="" style="width: 400px;">
+                    <img src="scan-tailor-15.png" alt="">
+                </p>
+                <p>
+                    Chegamos à última etapa do tratamento, "Saída". Repetimos o mesmo processo de apertar a setinha. A aparência final das imagens é como na tela abaixo:
+                </p>
+                <p>                
+                    <img src="scan-tailor-16.png" alt="" style="width: 300px;">
+                    <img src="scan-tailor-17.png" alt="">
+
+                </p>
+                <p>
+                    Se estiver tudo certo, aparecerá essa tela, dizendo que o programa está salvando as imagens tratadas:
+                </p>
+                <p>
+                    <img src="scan-tailor-18.png" alt="">
+                </p>
+                <p>
+                    Agora voltamos à pasta onde salvamos as imagens não tratadas e veremos uma pasta nova, contendo as imagens tratadas e recortadas.
+                </p>
+                <p>
+                    <img src="scan-tailor-19.png" alt="" style="width: 400px;"> <br>
+                    <p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<img src="scan-tailor-20.png" alt="" style="width: 400px;">
+                    </p>
+                </p>
+                <p>
+                    Hora de instalar o OCR.
+                </p>
+                <br>
+                <p>
+                    <p class="intertitulo">terceiro passo: instalando o OCR</p>
+                </p>
+                <p>
+                    Sem o Tesseract, este script não funcionaria &mdash; e talvez o OCR nem mesmo existisse. Essa técnica de reconhecimento de caracteres foi originalmente desenvolvida pela HP em 1985 e depois tocada pelo Google. Vem sendo usada, entre outras instituições, pela <a href="https://www.bib.uni-mannheim.de/">Biblioteca da Universidade de Mannheim</a> na extração de texto de jornais históricos da Alemanha. 
+                </p>
+                <p>
+                    Para instalá-lo no Windows, baixe o executável compatível com as especificações do seu computador em <a href="https://github.com/UB-Mannheim/tesseract/wiki">github.com/UB-Mannheim/tesseract/wiki</a> e instale-o, de preferência, no caminho indicado pelo assistente (em geral, <code>C:\Arquivos de Programas\Tesseract-OCR\</code>).
+                </p>
+                <p>
+                    Lembre-se de incluir os aditivos para o português, senão o OCR virá todo bagunçado:
+                </p>
+                <p>
+                    <img src="additional-01.png" alt="" style="width: 330px;"> <img src="additional-02.png" alt="" style="width: 330px;">
+                </p>
+                <p>
+                    Para verificar se o Tesseract foi instalado corretamente, abra uma janela do terminal (não precisa ter medo). Pesquise por "Prompt" no Iniciar, ou aperte <code>ctrl + r</code> para abrir o comando "Executar", digite <code>cmd</code> e aperte <code>enter</code>.
+                </p>
+                <p>
+                    <img src="prompt.png" alt="" style="width: 200px">  <img src="executar.png" alt="" style="width: 400px;">
+                </p>
+                <p>
+                    Já no terminal, digite <code>tesseract</code> e aperte <code>enter</code>. O terminal deve mostrar o seguinte resultado:
+                </p>
+                <p>
+                    <img src="tesseract-instalado.png">
+                </p>     
+                <p>
+                    Também é preciso garantir que o Tesseract seja incluído nas variáveis de ambientes do Windows. Assim ele poderá ser acessado pelo Python. Para fazer isso, pesquise no Iniciar pela seguinte tela: <code>Editar as variáveis de ambiente do sistema</code>. Clique em "Variáveis de ambiente" (também não é preciso ter medo).
+                </p>
+                <p>
+                    <img src="variaveis01.png" style="width: 400px;">
+                </p>
+                <p>Na metade inferior da tela, "Variáveis do sistema", selecione a linha <code>Path</code> e clique em "Editar":
+                </p>
+                <p>
+                    <img src="variaveis02.png" style="width: 500px;">
+                </p>
+                <p>
+                    Crie uma nova linha contendo o caminho da pasta onde você escolheu instalar o Tesseract. Deve ficar assim:
+                </p>
+                <p>
+                    <img src="variaveis03.png" style="width: 400px;">
+                </p>
+                <p>
+                    É um processo chato e delicado, mas vai valer a pena para automatizar o OCR do livro, que a depender do tamanho pode levar de meros segundos a até 2 minutos para ficar pronto.
+                </p>     
+                <br>
+                <p>
+                    <p class="intertitulo">quarto passo: configurando o python</p>
+                </p>
+                <p>
+                    Essa linguagem de programação é amplamente utilizada no treinamento de máquinas e em automação, daí a escolhermos como base para este script. Recomenda-se a versão mais atual (3.12), que pode ser baixada em <a href="https://www.python.org/downloads/windows/">python.org/downloads/windows/</a>.
+                </p>
+                <p>
+                    Para verificar se a instalação foi concluída com êxito, abra (de novo) uma janela do terminal, digite <code>python</code> e aperte <code>enter</code>. Deve aparecer:
+                </p>           
+                <p>
+                    <img src="python-instalado.png">
+                </p>     
+                <p> 
+                    Dentro do ambiente Python, há vários pacotes de aplicativos secundários que facilitam a vida do usuário. 
+                </p>
+                <p>
+                    Alguns dos que usaremos aqui já vêm embutidos no Python 3, então não precisa se preocupar com eles:
+                    <ul>
+                        <li>
+                            <span style="font-weight: bold;">os</span> (gerenciador de caminhos);
+                        </li>
+                        <li>
+                            <span style="font-weight: bold;">re</span> (expressões regulares de limpeza de texto);
+                        </li>
+                        <li>
+                            <span style="font-weight: bold;">time</span> (cálculo de tempo de processamento).
+                        </li>
+                    </ul>
+                    <p>
+                        Já outros precisam ser instalados manualmente:
+                    <ul>
+                        <li>
+                            <span style="font-weight: bold;">pytesseract</span> (interface com o Tesseract);
+                        </li>
+                        <li>
+                            <span style="font-weight: bold;">pillow</span> (dependência do pytesseract);
+                        </li>
+                        <li>
+                            <span style="font-weight: bold;">python-docx</span> (interface com o Microsoft Word).
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Para fazer isso de uma vez só, abra o terminal, digite a seguinte linha de comando e aperte a tecla <code>enter</code>:
+                </p>
+                <p class="terminal">                
+                    <code>pip install pytesseract pillow python-docx</code>
+                </p>
+                <p class="aviso">
+                    OBS.: o comando <code>pip</code> é a abreviatura de Package Installer for Python, responsável pela instalação de pacotes de terceiros. 
+                </p>
+                <p>
+                    Para verificar se a instalação foi bem-sucedida, execute novamente a mesma linha de comando. O resultado deve ser o seguinte:
+                </p>
+                <p>
+                    <img src="dependencias-instaladas.png" alt="">
+                </p>
+                <p>
+                    Isso significa que o Python tentou instalar de novo os pacotes (e suas dependências obrigatórias), mas já os encontrou no sistema.
+                </p>
+                <p>
+                    Agora você está com tudo pronto para poder rodar o script, que vai ler as imagens obtidas na digitalização do livro, criar um arquivo contendo o caminho delas no computador, extrair o texto dessas imagens, armazená-lo em um arquivo simples, tratá-lo e gerar um documento Word editável.
+                </p>
+                <br>
+                <p>
+                    <p class="intertitulo">quinto passo: entendendo o script</p>
+                </p>
+                <p>                
+                    Antes de rodá-lo, vamos entender como ele funciona. A primeira linha estabelece a codificação geral dos arquivos para o formato <a href="https://pt.wikipedia.org/wiki/UTF-8">UTF-8</a>, que comporta os acentos do português brasileiro:
+                </p>
+                <p class="terminal">
+                    <code># -*- coding: utf-8 -*-</code>
+                </p>
+                <p>
+                    Depois, são importados os pacotes necessários, a começar pelos que instalamos manualmente no quarto passo do guia:
+                </p>
+            <p class="terminal">                
+                <code>
+                    import pytesseract as pt<br>
+                    from PIL import Image<br>
+                    from docx import Document<br>
+                    from docx.shared import Pt, Cm<br>
+                    from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING<br>
+                </code>
+                <p>
+                    Faltam ainda os pacotes embutidos na instalação do Python e que também iremos usar:
+                </p>
+                <p class="terminal">
+                    <code>                
+                        import os<br>
+                        import re<br>
+                        from time import monotonic<br>
+                    </code>
+                </p>
+                <p>
+                    Ao fim do processo, receberemos a informação de quanto tempo o Python levou para concluir tudo. A linha seguinte inicia o processo de contagem:
+                </p>
+            <p class="terminal">
+                <code>
+                    contagem_inicial = monotonic()<br>
+                </code>
+            </p>
+            <p>
+                Para começar o OCR propriamente dito, o script se certifica de que está no diretório correto (aquele que contém as imagens das quais queremos extrair o texto) e gera um arquivo txt contendo a lista de imagens com extensão tif nesse diretório:
+            </p>
+            <p class="terminal">
+                <code>
+                    diretorio = os.getcwd() <br>
+                    arquivos_tif = [f for f in os.listdir(diretorio) if f.endswith('.tif')] <br>
+                    with open('ocr-listagem.txt', 'w') as out: <br>
+                    &nbsp; &nbsp; out.write('\n'.join(str(i) for i in arquivos_tif))</span>    
+                </code>
+                </p>
+                <p>
+                    Também é preciso informar o caminho em que o executável do Tesseract foi instalado. Fazemos isso com um comando fixo do pytesseract, chamado <code>pytesseract.tesseract_cmd</code>:
+                </p>
+                
+                <p class="terminal">
+                    <code>
+                    pt.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+                    </code>
+                </p>
+                <p class="aviso">
+                    OBS: aqui, informamos o caminho de instalação do Tesseract no computador seguido do nome do arquivo executável, e não apenas o caminho da pasta onde foi instalado, como fizemos antes ao incluir o Tesserac nas variáveis de ambiente do Windows.
+                </p>
+                <p>
+                    Agora é a vez de aplicar o OCR nas imagens contidas no diretório e salvar o resultado em um arquivo txt contendo o texto bruto. Esse texto ainda é muito cru, e traz todas as quebras de linha do original, incluindo linhas terminadas em hífen:
+
+                <p class="terminal">
+                    <code>
+                    listagem = os.path.join(diretorio, 'ocr-listagem.txt') <br>
+                    texto = pt.image_to_string(listagem, lang='por')
+                    </code>
+                </p>
+                <p>
+                    O script então converte para bytes o texto resultante do OCR (na linguagem Python, uma <code>string</code>) e o codifica novamente no formato unicode UTF-8 a fim de evitar erros de compatibilidade:
+                </p>
+                <p class="terminal">
+                <code>
+                    texto_bytes = texto.encode('utf-8').decode('utf-8').replace("\n\n", "\t")
+                </code>
+                </p>
+                <p class="aviso">
+                    OBS.: o método <code>replace</code> aqui substitui ocorrências de duas linhas em branco (o <code>\n\n</code> do código) por um caractere de tabulação (<code>\t</code>), que será por sua vez substituído depois. Fazemos isso para o Python saber que essas tabulações indicam o começo de um novo parágrafo no Word.
+                </p>
+
+            <p>
+                Na sequência, definimos uma função que pega um mapa de regras de substituição no texto resultante do OCR (por ex.: quebras de linha manuais, caracteres especiais de controle do Python, hifenização em fim de linha etc.):
+            </p>
+            <p class="terminal">
+                <code>
+                    def limpeza(rules, data: str) -> str: <br>
+                    ret = data <br>
+                    for pattern, repl in rules: <br>
+                    &nbsp; &nbsp; ret = re.sub(pattern, repl, ret) <br>
+                    &nbsp; &nbsp; return ret <br> <br>
+                </code>
+                <code>
+                    REGRAS = [ <br>
+                    &nbsp; &nbsp; (r'(\x0c)+', r''), <br>
+                    &nbsp; &nbsp; (r'[-]\n', r''), <br>
+                    &nbsp; &nbsp; (r'\n', r' '), <br>
+                    &nbsp; &nbsp; (r'\t', r'\t\n\t'), <br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; ]
+                </code>
+            </p>
+            <p class="aviso">
+                OBS.: aqui, temos mais exemplos de regrinhas de substituição: <code>\x0c</code> equivale a um caractere de quebra forçada de linha, originário do OCR e que pode causar problemas de compatibilidade quando transposto para o Word; <code>[-]\n</code> representa um hífen em fim de linha, que será eliminado para recuperar a palavra na íntegra; e assim por diante.
+            </p>
+
+            <p>
+                Hora de criar um segundo arquivo txt com o resultado dessas substituições feitas no texto bruto:
+            </p>
+            <p class="terminal">
+                <code>
+                    with open('ocr-bruto.txt', 'w') as u:<br>
+                    &nbsp; &nbsp; print(limpeza(REGRAS, texto_bytes), file=u)
+                </code>
+            </p>
+            <p>
+                Esse arquivo txt é aberto para leitura no Python, de modo a fazermos o último tratamento no texto:
+            </p>
+            <p class="terminal">
+                <code>
+                    with open('ocr-bruto.txt', 'r') as f: <br>
+                    &nbsp; &nbsp; final = f.read()
+                </code>
+            </p>
+            <p>
+                O último tratamento é separar o texto do arquivo txt em parágrafos. Estes são delimitados pela sequência de caracteres especiais do Python: tabulação seguida de quebra manual de linha e uma nova tabulação. Essa sequência foi criada na etapa de substituições no texto, e agora marcará o lugar exato onde o texto deve ser dividido em parágrafos:
+            </p>
+
+            <p class="terminal">
+                <code>
+                    final_separado = re.split(r'\t\n\t', final)
+                </code>
+            </p>
+            <p>
+                Com o texto final pronto para ser transformado em um arquivo do Microsoft Word, acessamos o pacote <span style="font-weight: bold;">python-docx</span>, configurando a formatação desejada para o documento. Escolhemos a fonte Times New Roman, corpo 12, estilo normal, devido à sua compatibilidade com o português brasileiro e centenas de outros idiomas:
+            </p>
+            <p class="terminal">
+                <code>
+                    arquivo = Document() <br>
+                    style = arquivo.styles['Normal'] <br>
+                    font = style.font <br>
+                    font.name = 'Times New Roman' <br>
+                    font.size = Pt(12)
+                </code>
+            </p>
+            <p>
+                O <code>loop</code> (ou laço) abaixo retorna cada parágrafo em separado e o atribui ao documento Word, com as respectivas formatações de parágrafo, criando recuos no começo de cada parágrafo final:                
+            </p>
+            <p class="terminal">
+                <code>
+                    for x in final_separado: <br>
+                    &nbsp; &nbsp; parágrafo = arquivo.add_paragraph(x)   <br>
+                    &nbsp; &nbsp; paragraph_format = parágrafo.paragraph_format <br>
+                    &nbsp; &nbsp; paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY <br>
+                    &nbsp; &nbsp; parágrafo.paragraph_format.line_spacing_rule = WD_LINE_SPACING.ONE_POINT_FIVE <br>
+                    &nbsp; &nbsp; paragraph_format.space_after = 0 <br>
+                    &nbsp; &nbsp; paragraph_format.space_before = 0 <br>
+                    &nbsp; &nbsp; paragraph_format.first_line_indent = Cm(1.25) 
+
+                </code>
+            </p>
+            <p>
+                Falta apenas salvar o resultado finalíssimo em um arquivo docx:
+            </p>
+            <p class="terminal">
+                <code>
+                    arquivo.save('ocr-limpo.docx')
+                </code>
+            </p>
+            <p>
+                Caso o processo tenha sido bem-sucedido, a janela do terminal de comando do Windows informa o tempo de execução do script. Ele obviamente vai variar, dependendo do tamanho do livro:
+            </p>
+            <p class="terminal">
+                <code>
+                    print(f"ÊXITO: todo o processo levou {monotonic() - start_time} segundos!")
+                </code>
+            </p>
+            <p>
+                Pronto! Na pasta em que o script foi rodado, deveremos ver três novos arquivos além do arquivo do script e das páginas recortadas pelo Scan Tailor:            
+            </p>
+            <p><img src="tres-arquivos-finais.png" alt="" style="width: 250px;"></p>
+            <p>
+                O arquivo <code>ocr-listagem.txt</code>, convém lembrar, contém a listagem dos arquivos tif na pasta; <code>ocr-bruto.txt</code> é o resultado cru do OCR, contendo ainda muitos erros por substituir; e <code>ocr-limpo.docx</code> é o documento Word já com o texto limpo e organizado em parágrafos.
+            </p>
+            <p>
+                <img src="arquivo-listagem.png" alt="" style="width: 210px;">  
+                <img src="arquivo-ocr-bruto.png" alt="" style="width: 220px;">  
+                <img src="arquivo-word.png" alt="" style="width: 200px;"> 
+            </p>
+            <br>
+            <p>
+                <p class="intertitulo">
+                    sexto passo: rodando o script
+                </p>
+            </p>
+            
+            <p>
+                Clique aqui para baixar o script.                 
+            </p>
+            <p class="aviso">
+                OBS.: fique à vontade para modificar o script e adaptá-lo às suas necessidades &mdash; desde que suas necessidades não sejam fazer da recuperação de livros antigos uma fonte de renda...
+            </p>
+            <p>
+                A maneira mais fácil de executá-lo é colocar o arquivo py na pasta onde se encontram as imagens da digitalização do livro e, na barra de endereços do Explorer, digitar <code>cmd</code> e apertar <code>enter</code>. Isso vai abrir uma janela do terminal de comando já na pasta correta. (Mas você também pode acessar a pasta apenas usando o terminal e o comando <code>cd</code>; veja mais sobre isso <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cd">aqui</a>.)
+            </p>
+            <p>
+                Depois é só digitar o seguinte comando, apertar <code>enter</code> e aguardar:
+            </p>
+            <p class="terminal">
+                <code>
+                    py ocr-script.py
+                </code>
+            </p>
+            <p>
+                Se tudo der certo, abra o arquivo <code>ocr-limpo.docx</code>. O estado do texto será mais ou menos parecido com o de nosso experimento realizado acima:
+            </p>
+            <p class="terminal" style="text-align: justify;">
+                <code>
+                    &nbsp; &nbsp; aqui imediatamente a senhora Acrivitza Ianulea, <br>
+                    &nbsp; &nbsp;Fêz menção de se afastar, mas a Princesinha o puxou pela manga, exclamando desesperada: <br>
+                    &nbsp; &nbsp; — Espere, Negoitza! <br>
+                    &nbsp; &nbsp; Para que encompridar ainda mais a nossa narrativa? Um conto, por mais belo que seja, não deve ser demasiado longo. <br>
+                    &nbsp; &nbsp; A jovem ficou curada, tão completamente curada que ninguém seria capaz de dizer que estivera doente; vestiu os seus mais belos trajes e foi dar um passeio de carro com a Princesa-Mãe. A frente, iam quatro imponentes palafreneiros e doze cavaleiros albaneses. Atrás, seguiam outros tantos, com os luxuosos mantos esvoaçando ao vento. <br>
+                    &nbsp; &nbsp; Encerrando o cortejo, seguia Manoli, que com a mão direita apertava o cinturão, de onde pendia o punhal, e com a esquerda ia torcendo os bigodes... O coração do Priíncipe transbordava de alegria, ao acompanhar com os olhos o coche que se afastava, quase voando... <br>
+                    &nbsp; &nbsp; Negoitza tornou-se hóspede da Córte. Dois dias depois, lembrando-se de que tinha de regular certos negócios no bairro dos “Comerciantes”, foi procurar a senhora Ianulea... Aquêles edifícios tão imponentes, que noutros tempos lhe haviam pertencido, tinham sido vendidos pelos credores... Pobrezinha! Abandonada pelo marido, vivia agora com o pai Hagi... Foi lá que Negoitza a encontrou, ficando impressionado com a sua beleza, a que dava ainda mais realce o <br>
+                    &nbsp; &nbsp; 168 seu vestido totalmente preto, como convém a uma viúva desolada... Depois de lhe beijar a mão, disse-lhe Negoitza: |
+                    &nbsp; &nbsp; -— Senhora, eu fiquei devendo a kyr Ilanulea cem marengos; infelizmente, só ontem é que tive conhecimento da sua desventura, e eis-me aqui para pagar a minha dívida... Receba, senhora, êste dinheiro que é seu! <br>
+                    &nbsp; &nbsp; A senhora lhe perguntou chorando, se sabia por acaso o que acontecera ao seu marido, pois sentia tantas saudades que via de não poder resistir; Negoitza disse não saber de nada; mas em sinal de reconhecimento, como o marido dela o ajudara num momento bem difícil, êle pedia à senhora que aceitasse como sua propriedade para sempre, sua vinha de Cutzitul-de-Argint. <br>
+                    &nbsp; &nbsp; E, dizendo isto, entregou-lhe ali mesmo o documento de doação, sancionado com o sélo da córte. Finalmente, decidido a se livrar duma vez para sempre do seu ofício de curandeiro, refletindo um pouco, acrescentou: <br>
+                    &nbsp; &nbsp; — Senhora, fique sabendo que se eu tive muita sorte, foi devido ao seu marido; em sua homenagem, portanto, e para honrar a sua memória, quero-lhe ensinar uma coisa que a poderá fazer sair facilmente das suas atuais dificuldades... Presteme muita atenção... Sempre que ouvir dizer que o diabo se apoderou de alguma mulher, casada ou solteira, de qualquer lugar ou raça que seja, dirija-se imediatamente para lá, pois essa mulher não será libertada enquanto a senhora não fôr expulsar dela o demônio... Deve <br>
+                    &nbsp; &nbsp; 169 dizer à doente apenas estas palavras, como se estivesse encontrando o seu marido: “Então é aqui que estás escondido, meu Ianulica? E eu te procurando feita louca... fos-mu! parighoria tu kosmu!” <br>
+                    &nbsp; &nbsp; — Como é que o senhor conhece estas palavras? — perguntou a senhora, olhando-o de viés. <br>
+                    &nbsp; &nbsp; — Aprendi-as há muito tempo de um amigo... — respondeu Negoitza, sorrindo; depois acrescentou: <br>
+                    &nbsp; &nbsp; — Não dirá nem uma palavra mais... Depois, deverá abraçar a doente, sempre com o pensamento em kyr Ianulea; deverá fixar a doente bem no rosto, assim como está olhando agora para mim, beijando-a, depois com paixão e não deixando de lhe demonstrar o seu afeto, enquanto não a vir completamente curada. — Não é preciso dizer que, conforme as posses da família, seus trabalhos serão recompensados... Consegui me explicar? <br>
+                    &nbsp; &nbsp; — Perfeitamente. <br>
+                    &nbsp; &nbsp; — Agora só me resta desejar-lhe muita saúde e muita sorte, senhora! <br>
+                    &nbsp; &nbsp; bs <br>
+                    &nbsp; &nbsp; Negoitza regressou à cóôrte, onde permaneceu mais uns quatro ou cinco dias, cercado de tudo o que é bom e cumulado de tôdas as honras. Enquanto êle se sentava à mesa com SS. Altezas e com os membros mais importantes da nobreza e aristocratas do reino, debaixo das janelas cantavam e bailavam os músicos da córte contratados para divertir os cortesãos e populares. No <br>
+                    &nbsp; &nbsp; 190 oitavo dia, Negoitza resolveu partir de Jiu e regressar para casa... <br>
+                    &nbsp; &nbsp; O Príncipe e a Princesa não somente o fizeram membro da nobreza, mas também lhe deram três saquinhos de sêda, contendo cada um mil marengos de ouro, e a Princesinha lhe ofereceu um anel com uma pedra preciosa grande que nem uma noz, e com grandes atenções o acompanharam até o fim da escadaria. <br>
+                    &nbsp; &nbsp; O Capitão pediu licença aos seus senhores para acompanhar Negoitza até sua casa. Durante tôda a viagem, o Capitão o tomou dia e noite aos seus cuidados como se fôsse um irmão; cantava e tocava para êle antigas canções turcas lá dos seus montes dis- <br>
+                    &nbsp; &nbsp; tantes... e tinha uma voz que era prazer escutá-lo. Além disso, cantava com muito sentimento. Negoitza apreciou muito essa <br>
+                    &nbsp; &nbsp; companhia que lhe fêz Manoli e, ao chegar em casa, sentiu-se na obrigação de convidar o Capitão como seu hóspede, pois fôra tão bom e simpático, quanto corajoso e valente... A noite, cearam juntos, regando tudo com um ótimo vinho de Dragasani, em seguida tomando café e fumando até altas horas; mas, fôsse pelo cansaço da viagem, fôsse pelo número de copos que passara bastante o normal, o Capitão, embora excepcionalmente forte, entregou-se repentinamente a um desabafo de sentimentos, chorando como uma mulher, e, caindo de joelhos diante do seu hóspede, assim falou: <br>
+                    &nbsp; &nbsp; -— Eu sou pobre, Bej-mu (meu príncipe), e nada tenho de precioso para lhe ofe- <br>
+                    &nbsp; &nbsp; 171 <br>
+                </code>
+            </p>
+            <p>
+                São vários os problemas no texto: hifens no meio de palavras, números de página começando parágrafos, duplicação de travessões, dificuldade no reconhecimento de palavras estrangeiras e de algarismos... Além das características próprias de um texto antigo: o acento diferencial em palavras como "fêz" e "sêda", por exemplo.
+            </p>
+            <p>
+                Alguns deles podem ser evitados com um tratamento página a página no Scan Tailor (talvez retirando das margens a numeração das páginas), mas a maioria ainda levará muito tempo e <span style="font-style: italic;">machine learning</span> para treinar uma inteligência artificial capaz de capturá-los e saber como corrigi-los. Não podemos contar com isso, e nem mesmo é desejável. A massa de texto, no entanto, está aí.
+            </p>
+            <p>
+                O resto é com você.
+            </p>
+
+
+            <br>
+            <p>
+                <p class="intertitulo">
+                    sugestões de leitura
+                </p>
+            </p>
+            <p>
+                Caso queira aprender mais sobre OCR e Python para fazer seu próprio script ou tirar dúvidas, recomendo a seguinte bibliografia:
+                <ul>
+                    <li>
+                        Joel Spolsky, <a href="https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/">The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)</a>
+                    </li>
+                    <li>
+                        The Sineth, <a href="https://www.youtube.com/watch?v=7XP5WiKw56Y&t=1973s">Optical Character Recognition From Beginner to Expert Using Python | Tesseract - Complete Tutorial</a>
+                    </li>
+                    <li>
+                        Tesseract OCR, <a href="https://github.com/tesseract-ocr/tesseract">Brief history</a> e <a href="https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage.html#simplest-invocation-to-ocr-an-image">documentação de uso</a>
+                    </li>
+                    <li>
+                        Bex Tuychiev, <a href="https://www.datacamp.com/tutorial/optical-character-recognition-ocr-in-python-with-pytesseract">A Comprehensive Tutorial on Optical Character Recognition (OCR) in Python With Pytesseract</a> 
+                    </li>
+                    <li>
+                        Chris Woodford, <a href="https://www.explainthatstuff.com/how-ocr-works.html">Optical character recognition (OCR)</a> 
+                    </li>
+                    <li>
+                        Genilson Medeiros, <a href="https://medium.com/@genilsonmedeiros/reconhecimento-de-caracteres-em-imagens-com-tesseract-ocr-e-python-parte-1-701caecaf747">Reconhecimento de caracteres em imagens com Tesseract-OCR e Python — Partes 1</a>, <a href="https://medium.com/@genilsonmedeiros/reconhecimento-de-caracteres-em-imagens-com-tesseract-ocr-e-python-parte-2-7da512049987">2</a> e <a href="https://medium.com/@genilsonmedeiros/reconhecimento-de-caracteres-em-imagens-com-tesseract-ocr-e-python-parte-3-84e8bd9d6298">3</a>; e <a href="https://medium.com/@genilsonmedeiros/pr%C3%A9-processamento-de-imagens-e175ca321fe0">Pré-processamento de imagens com Python — Partes 1</a> e <a href="https://medium.com/@genilsonmedeiros/pr%C3%A9-processamento-de-imagens-com-python-parte-2-limiariza%C3%A7%C3%A3o-41daa4edb457">2</a>
+                    </li>
+                </ul>
+            </p>
+
+
+
+        </div>
+
+        
+        <div>
+            <p style="font-size: small;">
+                (C) 2024 by <a href="index.html">ofuabio</a>
+            </p>            
+    </div>
+</body>
+</html>
+
+
+
+
+
