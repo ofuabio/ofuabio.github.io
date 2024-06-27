@@ -4,6 +4,8 @@ body {
     word-wrap: break-word;    
     line-height: 2rem;
     max-width: 55ch;
+    background-color: #282a36;
+    color: aliceblue;
     
 
 }
@@ -20,34 +22,25 @@ body {
 a:link, a:active, a:visited {   
     text-decoration: none;    
     font-weight: bold;
-    color: black;
+    color: aliceblue;
     border: 2px solid transparent;
     box-shadow: 2px 2px 1px transparent;
+    background-color: transparent;
 }
 a:hover {
+    color: bisque;
+    background-color: #191a21;
     text-decoration: none;
     border: 2px solid transparent;
     box-shadow: 4px 4px 1px black;
     border: 2px solid black;
     transition: box-shadow 0.3s ease-in, border 0.5s linear;
 }
-a.premio:link, a.premio:active, a.premio:visited {
-    text-decoration: none;
-    color: gray;
-    border: 0;
-    box-shadow: none;
-    
-}
-a.premio:hover {
-    text-decoration: none;
-    color: dimgray;
-    border: 0;
-    box-shadow: none;
-    transition: color 0.3s ease-in;
-}
+
 i {
     font-size: 1rem;
     margin-left: -22px;
+    color: chocolate;
 }
 img {
     width: 100%;
@@ -70,6 +63,8 @@ img.avatar {
     height: 150px;
     object-fit: scale-down;
     background-color: white;
+    border: 3px solid tomato;
+
 }
 .card-list {
     display: flex;
@@ -81,10 +76,10 @@ img.avatar {
     height: 15px;
 }
 .card-list::-webkit-scrollbar-thumb {
-    background: lightblue;    
+    background: tomato;    
 }
 .card-list::-webkit-scrollbar-track {
-    background: cornflowerblue;
+    background: navajowhite;
 }
 .card {
     width: 180px;
@@ -110,4 +105,34 @@ img.avatar {
 }
 a.navbar:link, a.navbar:active, a.navbar:visited {
     color: gray;
+}
+code {
+    color: tomato;
+}
+p.terminal {
+    background-color: #191a21; 
+    padding: 1rem; 
+    border-radius: 5px;
+    font-size: smaller;
+    line-height: 1.4rem;
+}
+p.intertitulo {
+    font-size: 2.5rem;
+}
+p.artigo {
+    font-size: 4rem; 
+    line-height: 4rem; 
+    border-top: 15px solid aliceblue;
+    
+}
+p.aviso {
+    border-style: dashed; 
+    border-radius: 15px; 
+    padding: 15px;
+}
+a.avatar:link {
+    text-decoration: none;
+    border: 0;
+    font-weight: normal;
+    box-shadow: none;
 }
