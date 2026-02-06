@@ -1,47 +1,45 @@
 body {
     font-family: Karla;
-    font-size: 1.4rem;
+    font-size: 1rem;
     word-wrap: break-word;    
-    line-height: 2rem;
-    max-width: 55ch;
-    background-color: #282a36;
-    color: aliceblue;
+    line-height: 1.2rem;
+    color: black;
+    margin: 50px;
     
 
 }
 .wrapper {
     width: 100%;
+    overflow:auto;
+
     
 
 }
 .wrapper div {
     padding: 10px 10px 5px 30px;
+    border: 1px solid red;
+    float: left;
     
 }
 
 a:link, a:active, a:visited {   
-    text-decoration: none;    
+    text-decoration: underline;    
     font-weight: bold;
-    color: aliceblue;
-    border: 2px solid transparent;
-    box-shadow: 2px 2px 1px transparent;
-    background-color: transparent;
+    color: red;
+    text-decoration-color: transparent;
+    display: inline-block;
+
+
 }
 a:hover {
-    color: bisque;
-    background-color: #191a21;
-    text-decoration: none;
-    border: 2px solid transparent;
-    box-shadow: 4px 4px 1px black;
-    border: 2px solid black;
-    transition: box-shadow 0.3s ease-in, border 0.5s linear;
+    text-decoration: underline;
+    text-decoration-color: red;
+    text-underline-offset: 0.3rem;
+    transition: .6s text-decoration-color ease;
+    text-decoration-thickness: 0.2rem;
 }
 
-i {
-    font-size: 1rem;
-    margin-left: -22px;
-    color: chocolate;
-}
+
 img {
     width: 100%;
 }
@@ -56,20 +54,10 @@ img.capas {
     width: 160px;
     height: 240px;
     }
-img.avatar {
-    border-radius: 50%; 
-    overflow: hidden;
-    width: 150px;
-    height: 150px;
-    object-fit: scale-down;
-    background-color: white;
-    border: 3px solid tomato;
 
-}
 .card-list {
     display: flex;
-    padding: 1rem;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 .card-list::-webkit-scrollbar {
     width: 12px;
@@ -84,7 +72,7 @@ img.avatar {
 .card {
     width: 180px;
     height: 250px;
-    padding-right: 2rem;
+    padding-right: 1rem;
     display: flex;
     flex-direction: column;
     transition: .2s;
@@ -92,13 +80,13 @@ img.avatar {
     position: relative;
 }
 .card:focus-within~.card, .card:hover~.card {
-    transform: translateX(130px);
+    transform: translateX(110px);
 }
 .card:hover {
     transform: translateY(-1rem);
 }
 .card:not(:first-child) {
-    margin-left: -130px;
+    margin-left: -110px;
 }
 .card-header {
     margin: auto;
@@ -106,33 +94,13 @@ img.avatar {
 a.navbar:link, a.navbar:active, a.navbar:visited {
     color: gray;
 }
-code {
-    color: tomato;
-}
-p.terminal {
-    background-color: #191a21; 
-    padding: 1rem; 
-    border-radius: 5px;
-    font-size: smaller;
-    line-height: 1.4rem;
-}
-p.intertitulo {
-    font-size: 2.5rem;
-}
-p.artigo {
-    font-size: 4rem; 
-    line-height: 4rem; 
-    border-top: 15px solid aliceblue;
-    
-}
-p.aviso {
-    border-style: dashed; 
-    border-radius: 15px; 
-    padding: 15px;
-}
-a.avatar:link {
-    text-decoration: none;
-    border: 0;
-    font-weight: normal;
-    box-shadow: none;
+
+td {    
+    vertical-align: top;
+    padding: 0.3rem;
+
+
+
+
+
 }
