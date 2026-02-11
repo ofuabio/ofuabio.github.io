@@ -1,10 +1,14 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: Karla;
     font-size: 1.2rem;
     word-wrap: break-word;    
     line-height: 1.6rem;
     color: black;
-    margin: 50px;
+    margin: 30px;
     background-color: white;
     
 
@@ -119,7 +123,7 @@ td {
     flex-direction: column;
     }
 }
-p.editora {
+.editora {
     font-weight: 100;
 }
 p.fabio {
@@ -131,10 +135,31 @@ p.fabio {
 p.topico {
     font-weight: 300;
 }
-p {
-    margin: 1px;
+.italico {
+    font-style: italic;
+    font-weight: 700;
+    color: red;
 }
+.italico2 {
+    font-style: italic;
 
+}
+.comentario {
+    color: grey;
+
+}
+.observacao {
+    font-variant: small-caps;
+}
+p {
+    margin-bottom: 0.5rem;
+}
+.premio {
+    font-variant: small-caps; 
+    font-size: small; 
+    color: royalblue; 
+    font-weight: bold;
+}
 
 
 .grid {
